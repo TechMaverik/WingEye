@@ -4,3 +4,4 @@ pillow
 fastapi
 pydantic
 uvicorn
+python-multipart
