@@ -22,3 +22,15 @@ class Handlers:
     def detect_crack(image_path):
         response = wingeye_services.detect_crack(image_path)
         return response
+    
+    def unzip(file_location):
+        response=wingeye_services.unzip_file(file_location)
+        return response
+
+    def zip(file_location):
+        response=wingeye_services.zip_file(file_location)
+        return response
+    
+    def remove_tempfiles(folder):
+        response=wingeye_services.remove_tempfiles(folder)
+        return response

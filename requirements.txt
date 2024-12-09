@@ -5,3 +5,4 @@ fastapi
 pydantic
 uvicorn
 python-multipart
+zipfile
