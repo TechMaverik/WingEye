@@ -39,5 +39,45 @@ async def rust_detection(input_file: list[UploadFile] | None = None):
         return response
 
 
+@wingeye.post("/dent_detection")
+async def rust_detection(input_file: list[UploadFile] | None = None):
+    if not input_file:
+        return {"message": "No upload file sent"}
+    else:
+        for file in input_file:
+            file_location = f"{UPLOAD_TO_DIR}/{file.filename}"
+            with open(file_location, "wb+") as file_object:
+                file_object.write(file.file.read())
+            response = wingeye_handlers.dent_detection(file_location)
+        return response
+
+
+# Needs improvemnt
+@wingeye.post("/color_fade")
+async def rust_detection(input_file: list[UploadFile] | None = None):
+    if not input_file:
+        return {"message": "No upload file sent"}
+    else:
+        for file in input_file:
+            file_location = f"{UPLOAD_TO_DIR}/{file.filename}"
+            with open(file_location, "wb+") as file_object:
+                file_object.write(file.file.read())
+            response = wingeye_handlers.detect_color_fade(file_location)
+        return response
+
+
+@wingeye.post("/crack")
+async def rust_detection(input_file: list[UploadFile] | None = None):
+    if not input_file:
+        return {"message": "No upload file sent"}
+    else:
+        for file in input_file:
+            file_location = f"{UPLOAD_TO_DIR}/{file.filename}"
+            with open(file_location, "wb+") as file_object:
+                file_object.write(file.file.read())
+            response = wingeye_handlers.detect_crack(file_location)
+        return response
+
+
 if __name__ == "__main__":
     uvicorn.run(wingeye, host="localhost", port=2024)
