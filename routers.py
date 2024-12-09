@@ -1,14 +1,16 @@
+import os
 import uvicorn
+import paths
 from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from handlers import Handlers as wingeye_handlers
-import os
 
-SAVE_FOLDER_PATH="Uploaded Image"
-if not os.path.exists(SAVE_FOLDER_PATH):
-            os.mkdir(SAVE_FOLDER_PATH)
 
-wingeye=FastAPI()
+UPLOAD_TO_DIR = paths.UPLOAD_DIR
+if not os.path.exists(UPLOAD_TO_DIR):
+    os.mkdir(UPLOAD_TO_DIR)
+
+wingeye = FastAPI()
 wingeye.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -30,12 +32,12 @@ async def rust_detection(input_file: list[UploadFile] | None = None):
         return {"message": "No upload file sent"}
     else:
         for file in input_file:
-            file_location = f"{SAVE_FOLDER_PATH}/{file.filename}"
+            file_location = f"{UPLOAD_TO_DIR}/{file.filename}"
             with open(file_location, "wb+") as file_object:
                 file_object.write(file.file.read())
-            rest_detect=wingeye_handlers.rust_detection(file_location)
-            rest_detect
-        return
+            response = wingeye_handlers.rust_detection(file_location)
+        return response
+
 
 if __name__ == "__main__":
     uvicorn.run(wingeye, host="localhost", port=2024)
