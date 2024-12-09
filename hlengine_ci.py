@@ -9,7 +9,7 @@ class HLEngineCoreInspection:
         if image is None:
             return {"Error": "Image not Found"}
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        edges = cv2.Canny(gray, threshold1=50, threshold2=150)
+        edges = cv2.Canny(gray, min=50, max=150)
         featured_image = image.copy()
         featured_image[edges > 0] = [0, 0, 255]
         return featured_image
