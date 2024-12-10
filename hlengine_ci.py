@@ -9,19 +9,10 @@ class HLEngineCoreInspection:
         if image is None:
             return {"Error": "Image not Found"}
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        blur = cv2.blur(gray, (3, 3))
-        # Log transform
-        img_log = (np.log(blur + 1) / (np.log(1 + np.max(blur)))) * 255
-        img_log = np.array(img_log, dtype=np.uint8)
-        # Bilateral Filter
-        bilateral = cv2.bilateralFilter(img_log, 5, 75, 75)
-        edges = cv2.Canny(bilateral, 100, 200)
-        kernel = np.ones((5, 5), np.uint8)
-        closing = cv2.morphologyEx(edges, cv2.MORPH_CLOSE, kernel)
-        orb = cv2.ORB_create(nfeatures=1500)
-        keypoints, descriptors = orb.detectAndCompute(closing, None)
-        featuredImg = cv2.drawKeypoints(closing, keypoints, None)
-        return featuredImg
+        edges = cv2.Canny(gray, min=50, max=150)
+        featured_image = image.copy()
+        featured_image[edges > 0] = [0, 0, 255]
+        return featured_image
 
     def rust_detection(image_path):
         image = cv2.imread(image_path)

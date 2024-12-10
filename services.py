@@ -8,9 +8,6 @@ from hlengine_ci import HLEngineCoreInspection as Engine
 
 class Services:
 
-    # def __init__(self):
-    #     self.Engine = HLEngineCoreInspection()
-
     def get_api_version():
         version = {
             "application": "WingEye",
