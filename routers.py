@@ -35,7 +35,7 @@ async def rust_detection(input_file: list[UploadFile] | None = None):
             file_location = f"{UPLOAD_TO_DIR}/{file.filename}"
             with open(file_location, "wb+") as file_object:
                 file_object.write(file.file.read())
-            response = wingeye_handlers.rust_detection(file_location)
+            response = wingeye_handlers().detect_rust(file_location)
         return response
 
 
