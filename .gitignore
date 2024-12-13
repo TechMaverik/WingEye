@@ -156,6 +156,7 @@ cython_debug/
 Processed_Files/
 Uploaded_Files/
 Extracted_Files/
+Result_Files/
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can

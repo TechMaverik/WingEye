@@ -9,7 +9,7 @@ class HLEngineCoreInspection:
         if image is None:
             return {"Error": "Image not Found"}
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        edges = cv2.Canny(gray, min=50, max=150)
+        edges = cv2.Canny(gray, threshold1=50, threshold2=150)
         featured_image = image.copy()
         featured_image[edges > 0] = [0, 0, 255]
         return featured_image
@@ -50,7 +50,6 @@ class HLEngineCoreInspection:
         h, s, v = cv2.split(hsv_image)
         faded_mask = cv2.inRange(s, 0, fade_threshold)
         featured_image = cv2.bitwise_and(image, image, mask=faded_mask)
-        print("color hit")
         return featured_image
 
     def dent(image_path):

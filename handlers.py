@@ -27,14 +27,26 @@ class Handlers:
         response = wingeye_services.detect_rust(extracted_images_list)
         return response
 
-    def dent_detection(image_path):
-        response = wingeye_services.detect_dent(image_path)
+    def dent_detection(self, zip_path):
+        status = self.unzip_files(zip_path)
+        extracted_images_list = []
+        for image in os.listdir(paths.EXTRACTED_DIR):
+            extracted_images_list.append(image)
+        response = wingeye_services.detect_dent(extracted_images_list)
         return response
 
-    def detect_color_fade(image_path):
-        response = wingeye_services.detect_color_fade(image_path)
+    def detect_color_fade(self, zip_path):
+        status = self.unzip_files(zip_path)
+        extracted_images_list = []
+        for image in os.listdir(paths.EXTRACTED_DIR):
+            extracted_images_list.append(image)
+        response = wingeye_services.detect_color_fade(extracted_images_list)
         return response
 
-    def detect_crack(image_path):
-        response = wingeye_services.detect_crack(image_path)
+    def detect_crack(self, zip_path):
+        status = self.unzip_files(zip_path)
+        extracted_images_list = []
+        for image in os.listdir(paths.EXTRACTED_DIR):
+            extracted_images_list.append(image)
+        response = wingeye_services.detect_crack(extracted_images_list)
         return response
