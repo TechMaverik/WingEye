@@ -31,6 +31,12 @@ def get_api_version():
     return version
 
 
+@wingeye.get("/delete_files")
+def delete_files():
+    response = wingeye_handlers.delete_files()
+    return response
+
+
 @wingeye.post("/rust_detection")
 async def rust_detection(input_file: list[UploadFile] | None = None):
     if not input_file:

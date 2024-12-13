@@ -12,6 +12,10 @@ class Handlers:
         version = wingeye_services.get_api_version()
         return version
 
+    def delete_files():
+        response = wingeye_services.delete_temporary_files()
+        return response
+
     def unzip_files(self, zip_path):
         if not os.path.exists(zip_path):
             return JSONResponse(status_code=404, content={"message": "File not found"})
