@@ -20,4 +20,5 @@
 | `Color Fade Detection` | curl -X 'POST' \'http://localhost:2024/color_fade' \-H 'accept: application/json' \-H 'Content-Type: multipart/form-data' \-F 'input_file=@dataset.zip;type=application/zip' |
 
 
-
+## Developed for 
+<img src="Documents/roboami.jpg"></img>
