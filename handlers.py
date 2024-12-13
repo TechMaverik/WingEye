@@ -3,17 +3,17 @@ import paths
 import zipfile
 from fastapi import File
 from fastapi.responses import JSONResponse
-from services import Services as wingeye_services
+from services import Services as wingi_services
 
 
 class Handlers:
 
     def get_api_version():
-        version = wingeye_services.get_api_version()
+        version = wingi_services.get_api_version()
         return version
 
     def delete_files():
-        response = wingeye_services.delete_temporary_files()
+        response = wingi_services.delete_temporary_files()
         return response
 
     def unzip_files(self, zip_path):
@@ -28,7 +28,7 @@ class Handlers:
         extracted_images_list = []
         for image in os.listdir(paths.EXTRACTED_DIR):
             extracted_images_list.append(image)
-        response = wingeye_services.detect_rust(extracted_images_list)
+        response = wingi_services.detect_rust(extracted_images_list)
         return response
 
     def dent_detection(self, zip_path):
@@ -36,7 +36,7 @@ class Handlers:
         extracted_images_list = []
         for image in os.listdir(paths.EXTRACTED_DIR):
             extracted_images_list.append(image)
-        response = wingeye_services.detect_dent(extracted_images_list)
+        response = wingi_services.detect_dent(extracted_images_list)
         return response
 
     def detect_color_fade(self, zip_path):
@@ -44,7 +44,7 @@ class Handlers:
         extracted_images_list = []
         for image in os.listdir(paths.EXTRACTED_DIR):
             extracted_images_list.append(image)
-        response = wingeye_services.detect_color_fade(extracted_images_list)
+        response = wingi_services.detect_color_fade(extracted_images_list)
         return response
 
     def detect_crack(self, zip_path):
@@ -52,5 +52,5 @@ class Handlers:
         extracted_images_list = []
         for image in os.listdir(paths.EXTRACTED_DIR):
             extracted_images_list.append(image)
-        response = wingeye_services.detect_crack(extracted_images_list)
+        response = wingi_services.detect_crack(extracted_images_list)
         return response
