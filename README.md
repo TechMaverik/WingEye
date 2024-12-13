@@ -1,6 +1,10 @@
 # Wing I
 `Wing I is an REST API based Inspection Software written in FAST API which is used to  inspect issues in air crafts and other material surfaces. Wing I can be deployed from drones or from UGVs or anything that supports live camera streaming    `
 
+## SETTING UP THE SERVER
+1. Create a new virtual environment with requirements.txt file
+2. Make sure virtual environment is installed and activate it before proceeding.
+
 ## PROCEDURE
 1. Get the images or videos from the drone to inspect.
 2. Zip the image or videos.
