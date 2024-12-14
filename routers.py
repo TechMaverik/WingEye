@@ -1,6 +1,7 @@
 import os
 import uvicorn
 import paths
+import logging
 from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from handlers import Handlers as wingi_handlers
@@ -90,8 +91,8 @@ async def crack(input_file: list[UploadFile] | None = None):
         return response
 
 
-@wingi.post("/crack_video")
-async def crack_video(input_file: list[UploadFile] | None = None):
+@wingi.post("/all_defects_inspection")
+async def all_defects_inspection(input_file: list[UploadFile] | None = None):
     if not input_file:
         return {"message": "No upload file sent"}
     else:
@@ -99,7 +100,7 @@ async def crack_video(input_file: list[UploadFile] | None = None):
             file_location = f"{paths.UPLOAD_DIR}/{file.filename}"
             with open(file_location, "wb+") as file_object:
                 file_object.write(file.file.read())
-            response = wingi_handlers().detect_crack_video(file_location)
+            response = wingi_handlers().all_defects_inspection(file_location)
         return response
 
 

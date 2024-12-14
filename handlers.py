@@ -24,7 +24,7 @@ class Handlers:
         return True
 
     def detect_rust(self, zip_path):
-        status = self.unzip_files(zip_path)
+        self.unzip_files(zip_path)
         extracted_images_list = []
         for image in os.listdir(paths.EXTRACTED_DIR):
             extracted_images_list.append(image)
@@ -32,7 +32,7 @@ class Handlers:
         return response
 
     def dent_detection(self, zip_path):
-        status = self.unzip_files(zip_path)
+        self.unzip_files(zip_path)
         extracted_images_list = []
         for image in os.listdir(paths.EXTRACTED_DIR):
             extracted_images_list.append(image)
@@ -40,7 +40,7 @@ class Handlers:
         return response
 
     def detect_color_fade(self, zip_path):
-        status = self.unzip_files(zip_path)
+        self.unzip_files(zip_path)
         extracted_images_list = []
         for image in os.listdir(paths.EXTRACTED_DIR):
             extracted_images_list.append(image)
@@ -48,17 +48,17 @@ class Handlers:
         return response
 
     def detect_crack(self, zip_path):
-        status = self.unzip_files(zip_path)
+        self.unzip_files(zip_path)
         extracted_images_list = []
         for image in os.listdir(paths.EXTRACTED_DIR):
             extracted_images_list.append(image)
         response = wingi_services.detect_crack(extracted_images_list)
         return response
 
-    def detect_crack_video(self, zip_path):
-        status = self.unzip_files(zip_path)
+    def all_defects_inspection(self, zip_path):
+        self.unzip_files(zip_path)
         extracted_images_list = []
         for image in os.listdir(paths.EXTRACTED_DIR):
             extracted_images_list.append(image)
-        response = wingi_services.detect_crack_video(extracted_images_list)
+        response = wingi_services.all_defects_inspection(extracted_images_list)
         return response

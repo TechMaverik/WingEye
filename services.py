@@ -63,9 +63,9 @@ class Services:
         with ZipFile(zip_full_path, "w") as zip_object:
             for folder_name, sub_folders, file_names in os.walk(paths.PROCESSED_DIR):
                 for filename in file_names:
-                    # Create filepath of files in directory
+
                     file_path = os.path.join(folder_name, filename)
-                    # Add files to zip file
+
                     zip_object.write(file_path, os.path.basename(file_path))
 
         return FileResponse(
@@ -87,9 +87,9 @@ class Services:
         with ZipFile(zip_full_path, "w") as zip_object:
             for folder_name, sub_folders, file_names in os.walk(paths.PROCESSED_DIR):
                 for filename in file_names:
-                    # Create filepath of files in directory
+
                     file_path = os.path.join(folder_name, filename)
-                    # Add files to zip file
+
                     zip_object.write(file_path, os.path.basename(file_path))
 
         return FileResponse(
@@ -111,9 +111,9 @@ class Services:
         with ZipFile(zip_full_path, "w") as zip_object:
             for folder_name, sub_folders, file_names in os.walk(paths.PROCESSED_DIR):
                 for filename in file_names:
-                    # Create filepath of files in directory
+
                     file_path = os.path.join(folder_name, filename)
-                    # Add files to zip file
+
                     zip_object.write(file_path, os.path.basename(file_path))
 
         return FileResponse(
@@ -135,9 +135,9 @@ class Services:
         with ZipFile(zip_full_path, "w") as zip_object:
             for folder_name, sub_folders, file_names in os.walk(paths.PROCESSED_DIR):
                 for filename in file_names:
-                    # Create filepath of files in directory
+
                     file_path = os.path.join(folder_name, filename)
-                    # Add files to zip file
+
                     zip_object.write(file_path, os.path.basename(file_path))
 
         return FileResponse(
@@ -145,19 +145,19 @@ class Services:
             filename=zip_full_path,
         )
 
-    def detect_crack_video(video_list):
+    def all_defects_inspection(video_list):
 
         for single_image in video_list:
             video_full_path = os.path.join(paths.EXTRACTED_DIR, single_image)
-            Engine.detect_crack_from_video(video_full_path)
+            Engine.all_defects_inspection(video_full_path)
 
-        zip_full_path = os.path.join(paths.RESULT_DIR, "_Crack_Video_Result.zip")
+        zip_full_path = os.path.join(
+            paths.RESULT_DIR, "_All_Defects_Inspection_Video_Result.zip"
+        )
         with ZipFile(zip_full_path, "w") as zip_object:
             for folder_name, sub_folders, file_names in os.walk(paths.PROCESSED_DIR):
                 for filename in file_names:
-                    # Create filepath of files in directory
                     file_path = os.path.join(folder_name, filename)
-                    # Add files to zip file
                     zip_object.write(file_path, os.path.basename(file_path))
 
         return FileResponse(
