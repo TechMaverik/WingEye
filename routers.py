@@ -31,7 +31,7 @@ def get_api_version():
     return version
 
 
-@wingi.get("/delete_files")
+@wingi.delete("/delete_files")
 def delete_files():
     response = wingi_handlers.delete_files()
     return response
@@ -51,7 +51,7 @@ async def rust_detection(input_file: list[UploadFile] | None = None):
 
 
 @wingi.post("/dent_detection")
-async def rust_detection(input_file: list[UploadFile] | None = None):
+async def dent_detection(input_file: list[UploadFile] | None = None):
     if not input_file:
         return {"message": "No upload file sent"}
     else:
@@ -65,7 +65,7 @@ async def rust_detection(input_file: list[UploadFile] | None = None):
 
 # Needs improvemnt
 @wingi.post("/color_fade")
-async def rust_detection(input_file: list[UploadFile] | None = None):
+async def color_fade(input_file: list[UploadFile] | None = None):
     if not input_file:
         return {"message": "No upload file sent"}
     else:
@@ -78,7 +78,7 @@ async def rust_detection(input_file: list[UploadFile] | None = None):
 
 
 @wingi.post("/crack")
-async def rust_detection(input_file: list[UploadFile] | None = None):
+async def crack(input_file: list[UploadFile] | None = None):
     if not input_file:
         return {"message": "No upload file sent"}
     else:
@@ -87,6 +87,19 @@ async def rust_detection(input_file: list[UploadFile] | None = None):
             with open(file_location, "wb+") as file_object:
                 file_object.write(file.file.read())
             response = wingi_handlers().detect_crack(file_location)
+        return response
+
+
+@wingi.post("/crack_video")
+async def crack_video(input_file: list[UploadFile] | None = None):
+    if not input_file:
+        return {"message": "No upload file sent"}
+    else:
+        for file in input_file:
+            file_location = f"{paths.UPLOAD_DIR}/{file.filename}"
+            with open(file_location, "wb+") as file_object:
+                file_object.write(file.file.read())
+            response = wingi_handlers().detect_crack_video(file_location)
         return response
 
 

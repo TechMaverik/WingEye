@@ -1,4 +1,6 @@
+import os
 import cv2
+import paths
 import numpy as np
 
 
@@ -85,3 +87,34 @@ class HLEngineCoreInspection:
                     10,
                 )
         return image
+
+    def detect_crack_from_video(video_path):
+
+        video = cv2.VideoCapture(video_path)
+        if not video.isOpened():
+            return {"error": "Cannot open video file"}
+
+        new_name = str(video_path)
+        new_file_name = new_name.replace(paths.EXTRACTED_DIR + "/", " ")
+
+        result_video_full_path = os.path.join(paths.PROCESSED_DIR, new_file_name)
+
+        fps = int(video.get(cv2.CAP_PROP_FPS))
+        frame_width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
+        frame_height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+        output_video_path = result_video_full_path
+        output_video = cv2.VideoWriter(
+            output_video_path, fourcc, fps, (frame_width, frame_height)
+        )
+
+        while True:
+            ret, frame = video.read()
+            if not ret:
+                break
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            edges = cv2.Canny(gray, 50, 150)
+            frame[edges > 150] = [255, 0, 0]
+            output_video.write(frame)
+        video.release()
+        output_video.release()

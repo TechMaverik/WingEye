@@ -54,3 +54,11 @@ class Handlers:
             extracted_images_list.append(image)
         response = wingi_services.detect_crack(extracted_images_list)
         return response
+
+    def detect_crack_video(self, zip_path):
+        status = self.unzip_files(zip_path)
+        extracted_images_list = []
+        for image in os.listdir(paths.EXTRACTED_DIR):
+            extracted_images_list.append(image)
+        response = wingi_services.detect_crack_video(extracted_images_list)
+        return response
