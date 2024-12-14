@@ -1,4 +1,6 @@
+import os
 import cv2
+import paths
 import numpy as np
 
 
@@ -29,7 +31,7 @@ class HLEngineCoreInspection:
             x, y, w, h = cv2.boundingRect(contour)
             side = max(w, h)
             square_x, square_y = x + (w - side) // 2, y + (h - side) // 2
-            cv2.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 10)
+            # cv2.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 10)
             cv2.putText(
                 image,
                 "*",
@@ -85,3 +87,94 @@ class HLEngineCoreInspection:
                     10,
                 )
         return image
+
+    def all_defects_inspection(video_path):
+
+        video = cv2.VideoCapture(video_path)
+        if not video.isOpened():
+            return {"error": "Cannot open video file"}
+
+        new_name = str(video_path)
+        new_file_name = new_name.replace(paths.EXTRACTED_DIR + "/", " ")
+
+        result_video_full_path = os.path.join(paths.PROCESSED_DIR, new_file_name)
+
+        fps = int(video.get(cv2.CAP_PROP_FPS))
+        frame_width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
+        frame_height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+        output_video_path = result_video_full_path
+        output_video = cv2.VideoWriter(
+            output_video_path, fourcc, fps, (frame_width, frame_height)
+        )
+
+        while True:
+            ret, frame = video.read()
+            if not ret:
+                break
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            edges = cv2.Canny(gray, 50, 150)
+            frame[edges > 150] = [255, 0, 0]
+            output_video.write(frame)
+        video.release()
+        output_video.release()
+
+    def detect_rust_from_video(video_path):
+
+        video = cv2.VideoCapture(video_path)
+        if not video.isOpened():
+            return {"error": "Cannot open video file"}
+
+        new_name = str(video_path)
+        new_file_name = new_name.replace(paths.EXTRACTED_DIR + "/", " ")
+
+        result_video_full_path = os.path.join(paths.PROCESSED_DIR, new_file_name)
+
+        fps = int(video.get(cv2.CAP_PROP_FPS))
+        frame_width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
+        frame_height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+        output_video_path = result_video_full_path
+        output_video = cv2.VideoWriter(
+            output_video_path, fourcc, fps, (frame_width, frame_height)
+        )
+
+        while True:
+            ret, frame = video.read()
+            if not ret:
+                break
+
+            lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
+            l_channel, a_channel, b_channel = cv2.split(lab)
+
+            lower_rust = np.array([80, 130, 100])  # Lower bound for rust color
+            upper_rust = np.array([150, 160, 140])  # Upper bound for rust color
+
+            rust_mask = cv2.inRange(lab, lower_rust, upper_rust)
+
+            kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7))
+            rust_mask = cv2.morphologyEx(rust_mask, cv2.MORPH_CLOSE, kernel)
+
+            contours, _ = cv2.findContours(
+                rust_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+            )
+
+            # Draw bounding boxes around the detected rust areas
+            for contour in contours:
+                if cv2.contourArea(contour) > 0:
+                    x, y, w, h = cv2.boundingRect(contour)
+                    side = max(w, h)
+                    square_x, square_y = x + (w - side) // 2, y + (h - side) // 2
+                    cv2.putText(
+                        frame,
+                        "*",
+                        (square_x, square_y - 50),
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        0.8,
+                        (0, 0, 255),
+                        2,
+                    )
+
+            output_video.write(frame)
+        video.release()
+        output_video.release()
